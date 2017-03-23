@@ -54,3 +54,14 @@ jar {
         )
     }
 }
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'DIMPY', 'Implementation-version': version, 'Main-Class': 'org.mangudai.Server'
+    }
+    baseName = project.name + '-all'
+    from {
+        configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+    with jar
+}

@@ -18,9 +18,13 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -325,6 +329,31 @@ public class Utility {
         ByteBuf content = Unpooled.copiedBuffer(bytes);
 
         return createFullHttpResponse(httpVersion, status, "text/html; charset=utf-8", content, bytes.length);
+    }
+
+    public static FullHttpResponse createFullHttpResponseJSFile(HttpVersion httpVersion,
+                                                                HttpResponseStatus status,
+                                                                String fileName) {
+        File file = new File(fileName);
+        byte[] byteArray;
+        if (file.exists()) {
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                int fileLength = (int) file.length();
+                byteArray = new byte[fileLength];
+                fis.read(byteArray);
+                fis.close();
+            } catch (Exception ex) {
+                LOGGER.error("Error reading javascript file", ex);
+                byteArray = ("function replacer(){console.log(\"File" + fileName + " does not  exist.\")}").getBytes();
+            }
+        } else {
+            byteArray = ("function replacer(){console.log(\"File" + fileName + " does not  exist.\")}").getBytes();
+        }
+        Path path = Paths.get(fileName);
+//        byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+        ByteBuf content = Unpooled.copiedBuffer(byteArray);
+        return createFullHttpResponse(httpVersion, status, "application/javascript; charset=utf-8", content, byteArray.length);
     }
 
     public static FullHttpResponse createFullHttpResponse(HttpVersion httpVersion,

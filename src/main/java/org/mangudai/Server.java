@@ -9,7 +9,7 @@ package org.mangudai;
 import org.mangudai.bootstrap.DefaultProxyServerBootstrap;
 import org.mangudai.bootstrap.ProxyServerBootstrap;
 import org.mangudai.filter.HttpFilterFactory;
-import org.mangudai.server.DefaultHttpProxyServer;
+import org.mangudai.util.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +32,9 @@ public class Server {
 
     public static void main(String args[]) {
         System.out.println("Hello World!!");
+        int port = Integer.parseInt(ServerProperties.INSTANCE.getProperty("server.port"));
         ProxyServerBootstrap bootstrap = new DefaultProxyServerBootstrap()
-                .withPort(9999)
+                .withPort(port)
                 .withAllowLocalOnly(true)
                 .withFilterFactory(new HttpFilterFactory());
         System.out.println("Server has started.....");
