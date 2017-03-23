@@ -1,0 +1,56 @@
+group 'org.mangudai'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/plugins-release" }
+    maven { url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"}
+}
+
+dependencies {
+    compile "com.google.guava:guava:20.0"
+    compile "commons-cli:commons-cli:1.3.1"
+    compile "org.apache.commons:commons-lang3:3.5"
+
+    compile "org.slf4j:slf4j-api:1.7.21"
+    compile "ch.qos.logback:logback-classic:1.1.7"
+    compile "ch.qos.logback:logback-core:1.1.7"
+    compile "io.netty:netty-all:*"
+    compile "com.barchart.udt:barchart-udt-bundle:2.3.0"
+    compile "org.littleshoot:dnssec4j:0.1.6"
+    compile "dnsjava:dnsjava:2.1.8"
+    compile "io.netty:netty-all:4.1.9.Final"
+    compile "io.netty:netty-buffer:4.1.9.Final"
+    compile "io.netty:netty-codec:4.1.9.Final"
+    compile "io.netty:netty-codec-haproxy:4.1.9.Final"
+    compile "io.netty:netty-codec-http:4.1.9.Final"
+    compile "io.netty:netty-codec-socks:4.1.9.Final"
+    compile "io.netty:netty-common:4.1.9.Final"
+    compile "io.netty:netty-handler:4.1.9.Final"
+    compile "io.netty:netty-transport:4.1.9.Final"
+    compile "io.netty:netty-transport-rxtx:4.1.9.Final"
+    compile "io.netty:netty-transport-sctp:4.1.9.Final"
+//    compile "io.netty:netty-transport-udp:4.1.9.Final"
+//    compile "io.netty:netty-example:4.1.9.Final"
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.hamcrest:hamcrest-core:1.3"
+    testCompile "org.hamcrest:hamcrest-library:1.3"
+    testCompile "org.eclipse.jetty:jetty-server:8.1.17.v20150415"
+    testCompile "org.mockito:mockito-core:2.7.12"
+    testCompile "org.mock-server:mockserver-netty:3.10.4"
+    testCompile "org.seleniumhq.selenium:selenium-java:2.53.1"
+}
+
+jar {
+    version = '0.0.1'
+    manifest {
+        attributes(
+                'Main-Class': 'org.mangudai.Server'
+        )
+    }
+}
