@@ -6,9 +6,11 @@
 
 package org.mangudai;
 
+import com.beust.jcommander.JCommander;
 import org.mangudai.bootstrap.DefaultProxyServerBootstrap;
 import org.mangudai.bootstrap.ProxyServerBootstrap;
 import org.mangudai.filter.HttpFilterFactory;
+import org.mangudai.util.ServerArguments;
 import org.mangudai.util.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +34,15 @@ public class Server {
 
     public static void main(String args[]) {
         System.out.println("Hello World!!");
-        int port = Integer.parseInt(ServerProperties.INSTANCE.getProperty("server.port"));
+        ServerArguments serverArguments = new ServerArguments();
+        new JCommander(serverArguments, args);
+//        int port = Integer.parseInt(ServerProperties.INSTANCE.getProperty("server.port"));
+
+        ServerProperties.INSTANCE.setProperty("filter.filereplace.expression", serverArguments.inputFile);
+        ServerProperties.INSTANCE.setProperty("filter.filereplace.filename", serverArguments.outputFile);
+
         ProxyServerBootstrap bootstrap = new DefaultProxyServerBootstrap()
-                .withPort(port)
+                .withPort(serverArguments.port)
                 .withAllowLocalOnly(true)
                 .withFilterFactory(new HttpFilterFactory());
         System.out.println("Server has started.....");

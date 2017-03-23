@@ -33,4 +33,8 @@ public enum ServerProperties {
         String value = properties.getProperty(name);
         return value == null ? "" : value;
     }
+
+    public void setProperty(String key, String value) {
+        properties.setProperty(key, value);
+    }
 }
